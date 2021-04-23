@@ -1,6 +1,6 @@
 package hu.bme.mit.spaceship;
 
-import java.util.Random;
+import java.security.SecureRandom;
 
 /**
 * Class storing and managing the torpedoes of a ship
@@ -13,7 +13,7 @@ public class TorpedoStore {
   private double FAILURE_RATE = 0.0; //NOSONAR
 
   private int torpedoCount = 0;
-  private Random generator;
+  private SecureRandom generator;
 
   public TorpedoStore(int numberOfTorpedos){
     this.torpedoCount = numberOfTorpedos;
@@ -28,7 +28,7 @@ public class TorpedoStore {
       }
     }
 
-    generator = new Random();
+    generator = new SecureRandom();
   }
 
   public boolean fire(int numberOfTorpedos){
