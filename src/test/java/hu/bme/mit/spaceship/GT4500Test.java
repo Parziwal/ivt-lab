@@ -55,12 +55,10 @@ public class GT4500Test {
     // Arrange
 
     // Act
-    boolean firstResult = ship.fireTorpedo(FiringMode.SINGLE);
-    boolean secondResult = ship.fireTorpedo(FiringMode.SINGLE);
+    ship.fireTorpedo(FiringMode.SINGLE);
+    ship.fireTorpedo(FiringMode.SINGLE);
 
     // Assert
-    assertEquals(true, firstResult);
-    assertEquals(true, secondResult);
 
     verify(primaryTorpedoStore, times(1)).fire(1);
     verify(secondaryTorpedoStore, times(1)).fire(1);
@@ -71,15 +69,11 @@ public class GT4500Test {
     // Arrange
 
     // Act
-    boolean firstResult = ship.fireTorpedo(FiringMode.SINGLE);
-    boolean secondResult = ship.fireTorpedo(FiringMode.SINGLE);
-    boolean thirdResult = ship.fireTorpedo(FiringMode.SINGLE);
+    ship.fireTorpedo(FiringMode.SINGLE);
+    ship.fireTorpedo(FiringMode.SINGLE);
+    ship.fireTorpedo(FiringMode.SINGLE);
 
     // Assert
-    assertEquals(true, firstResult);
-    assertEquals(true, secondResult);
-    assertEquals(true, thirdResult);
-
     verify(primaryTorpedoStore, times(2)).fire(1);
     verify(secondaryTorpedoStore, times(1)).fire(1);
   }
@@ -105,12 +99,10 @@ public class GT4500Test {
     when(secondaryTorpedoStore.isEmpty()).thenReturn(true);
 
     // Act
-    boolean firstResult = ship.fireTorpedo(FiringMode.SINGLE);
-    boolean secondResult = ship.fireTorpedo(FiringMode.SINGLE);
+    ship.fireTorpedo(FiringMode.SINGLE);
+    ship.fireTorpedo(FiringMode.SINGLE);
 
     // Assert
-    assertEquals(true, firstResult);
-    assertEquals(true, secondResult);
 
     verify(primaryTorpedoStore, times(2)).fire(1);
     verify(secondaryTorpedoStore, times(0)).fire(1);
@@ -132,19 +124,5 @@ public class GT4500Test {
     verify(secondaryTorpedoStore, times(0)).fire(1);
   }
 
-  
-  @Test
-  public void fireTorpedo_All_PrimaryEmpty() {
-    // Arrange
-    when(primaryTorpedoStore.isEmpty()).thenReturn(true);
 
-    // Act
-    boolean result = ship.fireTorpedo(FiringMode.ALL);
-
-    // Assert
-    assertEquals(true, result);
-
-    verify(primaryTorpedoStore, times(0)).fire(1);
-    verify(secondaryTorpedoStore, times(1)).fire(1);
-  }
 }
