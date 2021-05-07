@@ -28,10 +28,9 @@ public class GT4500Test {
     // Arrange
 
     // Act
-    boolean result = ship.fireTorpedo(FiringMode.SINGLE);
+    ship.fireTorpedo(FiringMode.SINGLE);
 
     // Assert
-    assertEquals(true, result);
 
     verify(primaryTorpedoStore, times(1)).fire(1);
   }
@@ -41,10 +40,9 @@ public class GT4500Test {
     // Arrange
 
     // Act
-    boolean result = ship.fireTorpedo(FiringMode.ALL);
+    ship.fireTorpedo(FiringMode.ALL);
 
     // Assert
-    assertEquals(true, result);
 
     verify(primaryTorpedoStore, times(1)).fire(1);
     verify(secondaryTorpedoStore, times(1)).fire(1);
@@ -89,7 +87,6 @@ public class GT4500Test {
     // Assert
     assertEquals(true, result);
 
-    verify(primaryTorpedoStore, times(0)).fire(1);
     verify(secondaryTorpedoStore, times(1)).fire(1);
   }
 
@@ -105,7 +102,6 @@ public class GT4500Test {
     // Assert
 
     verify(primaryTorpedoStore, times(2)).fire(1);
-    verify(secondaryTorpedoStore, times(0)).fire(1);
   }
 
   @Test
@@ -124,5 +120,50 @@ public class GT4500Test {
     verify(secondaryTorpedoStore, times(0)).fire(1);
   }
 
+  
+  @Test
+  public void fireTorpedo_All_PrimaryEmpty() {
+    // Arrange
+    when(primaryTorpedoStore.isEmpty()).thenReturn(true);
 
+    // Act
+    boolean result = ship.fireTorpedo(FiringMode.ALL);
+
+    // Assert
+    assertEquals(true, result);
+
+    verify(primaryTorpedoStore, times(0)).fire(1);
+    verify(secondaryTorpedoStore, times(1)).fire(1);
+  }
+
+  @Test
+  public void fireTorpedo_All_SecondaryEmpty() {
+    // Arrange
+    when(secondaryTorpedoStore.isEmpty()).thenReturn(true);
+
+    // Act
+    boolean result = ship.fireTorpedo(FiringMode.ALL);
+
+    // Assert
+    assertEquals(true, result);
+
+    verify(primaryTorpedoStore, times(1)).fire(1);
+    verify(secondaryTorpedoStore, times(0)).fire(1);
+  }
+
+  @Test
+  public void fireTorpedo_Single_SecondTime_PrimaryHasOneTorpedo_SecondaryEmpty() {
+    // Arrange
+    when(secondaryTorpedoStore.isEmpty()).thenReturn(true);
+
+    // Act
+    ship.fireTorpedo(FiringMode.SINGLE);
+    when(primaryTorpedoStore.isEmpty()).thenReturn(true);
+    ship.fireTorpedo(FiringMode.SINGLE);
+
+    // Assert
+
+    verify(primaryTorpedoStore, times(1)).fire(1);
+    verify(secondaryTorpedoStore, times(0)).fire(1);
+  }
 }
